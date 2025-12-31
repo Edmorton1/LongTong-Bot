@@ -1,0 +1,16 @@
+{
+  "welcome": "Hello, {{name}}! I am bot on Telegraf on TypeScript",
+  "keyboard": {
+    "start": "🏁 Start",
+    "remember_word": "📝 Remember word",
+    "load_word_dictionary": "📤 Load word dictionary",
+    "show_words_list": "📋 Show words list"
+  },
+  "responses": {
+    "start": {
+      "input_original": "Enter original word",
+      "input_translate": "Enter translate word",
+      "word_saved": "Word saved\nOriginal: {{original}}\nTranslate: {{translate}}"
+    }
+  }
+}

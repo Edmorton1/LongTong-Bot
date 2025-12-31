@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun ./index.ts",
+    "dev": "bun --watch ./src/bot.ts",
+    "start": "bun ./src/bot.ts",
     "generate-types": "bun ./generate-config.ts && npx kysely-codegen --config-file ./kysely-codegen.config.json"
   },
   "devDependencies": {
@@ -17,6 +18,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "i18next": "^25.7.3",
+    "i18next-fs-backend": "^2.6.1",
     "kysely": "^0.28.9",
     "pg": "^8.16.3",
     "pino": "^10.1.0",

@@ -1,10 +1,11 @@
+import {getEnv} from '@utils';
 import pino, {type LoggerOptions, type Logger as PinoLogger} from 'pino';
 import type {Connection} from '../types';
 
 const config: LoggerOptions = {
   level: 'debug',
   transport:
-    process.env.NODE_ENV === 'development'
+    getEnv('NODE_ENV') === 'development'
       ? {
           target: 'pino-pretty',
           options: {colorize: true}
@@ -17,7 +18,7 @@ class Logger implements Connection {
 
   public connect = () => {
     this._logger = pino(config);
-    this._logger.info('PINO CONNECT');
+    this._logger.info('LOGGER CONNECT');
   };
 
   public get(): PinoLogger {
@@ -29,6 +30,7 @@ class Logger implements Connection {
 
   public disconnect() {
     if (this._logger) {
+      this._logger.info('LOGGER DISCONNECT');
       this._logger.flush();
       this._logger = null;
     }

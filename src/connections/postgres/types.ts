@@ -10,21 +10,21 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 
 export interface Relations {
-  correct: number | null;
-  incorrect: number | null;
-  userId: number | null;
-  wordId: number | null;
+  correct: Generated<number>;
+  incorrect: Generated<number>;
+  userId: number;
+  wordId: number;
 }
 
 export interface Users {
   id: number;
-  name: string | null;
+  name: string;
 }
 
 export interface Words {
   id: Generated<number>;
-  original: string | null;
-  translate: string | null;
+  original: string;
+  translate: string;
 }
 
 export interface DB {

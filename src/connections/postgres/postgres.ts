@@ -1,7 +1,8 @@
+import {logger} from '@connections';
 import {Kysely} from 'kysely';
 import {createDialect} from '../../../.config/dialect';
-import type {Connection} from '../types.js';
-import type {DB} from './types.js';
+import type {Connection} from '../types';
+import type {DB} from './types';
 
 class Postgres implements Connection {
   private _pg: Kysely<DB> | null = null;
@@ -9,6 +10,7 @@ class Postgres implements Connection {
   public connect() {
     const dialect = createDialect();
 
+    logger().info('POSTGRES CONNECT');
     this._pg = new Kysely<DB>({dialect});
   }
 
@@ -19,6 +21,7 @@ class Postgres implements Connection {
 
   public async disconnect() {
     if (this._pg) {
+      logger().info('POSTGRES DISCONNECT');
       await this._pg.destroy();
       this._pg = null;
     }
