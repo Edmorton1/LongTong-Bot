@@ -4,6 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "lint": "biome lint . --fix",
+    "watch": "tsc --watch --noEmit",
     "dev": "bun --watch ./src/bot.ts",
     "start": "bun ./src/bot.ts",
     "generate-types": "bun ./generate-config.ts && npx kysely-codegen --config-file ./kysely-codegen.config.json"

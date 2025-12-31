@@ -30,7 +30,8 @@
     "paths": {
       "@connections": ["./src/connections/index.ts"],
       "@utils": ["./src/utils/index.ts"],
-      "@domain": ["./src/connections/postgres/types.ts"]
+      "@domain": ["./src/connections/postgres/types.ts"],
+      "@interfaces/*": ["./src/types/*"]
     }
   }
 }

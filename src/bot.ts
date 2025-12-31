@@ -1,17 +1,15 @@
-import {connect, logger, pg} from '@connections';
+import {connect, logger} from '@connections';
+import type {MyContext} from '@interfaces/context';
 import {getEnv} from '@utils';
-import {type Context, Markup, session, Telegraf} from 'telegraf';
+import {Markup, session, Telegraf} from 'telegraf';
 import {message} from 'telegraf/filters';
+import {actions} from './actions';
 import {saveUser, saveWordAndCreateRelation} from './baza';
-import {t} from './i18n';
-
-interface SessionData {
-  originalWord?: string;
-}
-
-export type MyContext = Context & {session: SessionData};
+import {t} from './locales/i18n';
 
 connect();
+
+console.log(actions);
 
 const bot = new Telegraf<MyContext>(getEnv('BOT_KEY'));
 
