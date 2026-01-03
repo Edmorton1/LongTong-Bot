@@ -6,7 +6,6 @@ import { message } from 'telegraf/filters';
 import { actions, callbacks } from './actions';
 import { saveUser } from './baza';
 import { t } from './locales/i18n';
-import { replyKeyboard } from './temp';
 
 connect();
 
@@ -18,16 +17,28 @@ bot.start(async (ctx) => {
   const { id, first_name: name } = ctx.from;
 
   // TODO: Дублирование убрать
-  const lng = ctx.session.lng ?? ctx.from?.language_code ?? 'en';
+  const lng = ctx.from?.language_code ?? 'en';
 
   await saveUser({ id, name });
 
-  await ctx.reply(t('welcome', lng, { name }), replyKeyboard(lng));
+  await ctx.reply(
+    t('welcome', lng, { name }),
+    Markup.keyboard([
+      [t('keyboard.start', lng)],
+      [
+        t('keyboard.remember_word', lng),
+        t('keyboard.load_word_dictionary', lng),
+      ],
+      [t('keyboard.show_words_list', lng)],
+    ])
+      .resize()
+      .oneTime(false),
+  );
 });
 
 bot.on(message('text'), async (ctx) => {
   console.log(ctx.session);
-  const lng = ctx.session.lng ?? ctx.from?.language_code ?? 'en';
+  const lng = ctx.from?.language_code ?? 'en';
 
   if (ctx.message.reply_to_message) {
     const original = ctx.message.reply_to_message.text;

@@ -7,7 +7,7 @@ export abstract class Action {
   protected abstract action(ctx: MyContext, lng: string): void;
 
   public run(ctx: MyContext) {
-    const lng = ctx.session.lng ?? ctx.from?.language_code ?? 'en';
+    const lng = ctx.from?.language_code ?? 'en';
     this.action(ctx, lng);
   }
 
