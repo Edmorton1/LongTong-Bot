@@ -1,22 +1,43 @@
-import {readdirSync} from 'node:fs';
-import {join} from 'node:path';
-import {Action} from './Action';
+import { readdirSync, statSync } from 'node:fs';
+import { extname, join } from 'node:path';
+import { Action } from './Action';
+import type { MyContext } from '@interfaces/context';
 
 export const actions: Action[] = [];
+// TODO: Type duplicate
+export const callbacks: { name: string; handler: (ctx: MyContext) => void }[] =
+  [];
 
-const files = readdirSync(__dirname).filter(
-  (file) => file !== 'index.ts' && file !== 'Action.ts' && file.endsWith('.ts')
-);
+async function loadFilesRecursively(dir: string) {
+  const entries = readdirSync(dir);
 
-for (const file of files) {
-  const mod = require(join(__dirname, file));
+  for (const entry of entries) {
+    const fullPath = join(dir, entry);
+    const stat = statSync(fullPath);
 
-  const ActionClass = mod.default;
+    if (stat.isDirectory()) {
+      await loadFilesRecursively(fullPath);
+    } else if (
+      stat.isFile() &&
+      extname(entry) === '.ts' &&
+      entry !== 'index.ts' &&
+      entry !== 'Action.ts'
+    ) {
+      const module = await import(fullPath);
+      const ActionClass = module.default;
 
-  if (typeof ActionClass === 'function') {
-    const instance = new ActionClass();
-    if (instance instanceof Action) {
-      actions.push(instance);
+      if (typeof ActionClass === 'function') {
+        const instance = new ActionClass();
+        if (instance instanceof Action) {
+          const actionCallbacks = instance.getCallbacks();
+          if (actionCallbacks?.length) {
+            callbacks.push(...actionCallbacks);
+          }
+          actions.push(instance);
+        }
+      }
     }
   }
 }
+
+await loadFilesRecursively(__dirname);

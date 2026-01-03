@@ -1,0 +1,22 @@
+{
+  "Action": {
+    "prefix": "act",
+    "body": [
+      "import type {MyContext} from '@interfaces/context';",
+      "import {Action} from '../Action';",
+      "",
+      "class ${TM_FILENAME_BASE} extends Action {",
+      "  constructor() {",
+      "    super('${1}');",
+      "  }",
+      "",
+      "  action(ctx: MyContext, lng: string) {",
+      "    $0",
+      "  }",
+      "}",
+      "",
+      "export default ${TM_FILENAME_BASE};"
+    ],
+    "description": "Create Action class"
+  }
+}

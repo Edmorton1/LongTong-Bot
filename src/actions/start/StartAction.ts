@@ -1,13 +1,13 @@
 import type {MyContext} from '@interfaces/context';
-import {Action} from './Action';
+import {Action} from '../Action';
 
 class StartAction extends Action {
   constructor() {
-    super('welcome', 'action');
+    super('keyboard.start');
   }
 
-  action(ctx: MyContext) {
-    ctx.reply('welcome command');
+  action(ctx: MyContext, lng: string) {
+    ctx.reply('mock start');
   }
 }
 

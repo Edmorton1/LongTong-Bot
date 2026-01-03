@@ -4,13 +4,17 @@
     "start": "🏁 Start",
     "remember_word": "📝 Remember word",
     "load_word_dictionary": "📤 Load word dictionary",
-    "show_words_list": "📋 Show words list"
+    "show_words_list": "📋 Show words list",
+    "change_language": "🇺🇸 Change language"
   },
   "responses": {
     "start": {
       "input_original": "Enter original word",
       "input_translate": "Enter translate word",
       "word_saved": "Word saved\nOriginal: {{original}}\nTranslate: {{translate}}"
+    },
+    "change_language": {
+      "select_language": "Select language from suggested"
     }
   }
 }
