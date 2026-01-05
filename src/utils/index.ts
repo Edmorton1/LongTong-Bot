@@ -1,3 +1,4 @@
 import getEnv from './getEnv';
+import refreshWordList from './refreshWordList';
 
-export {getEnv};
+export {getEnv, refreshWordList};

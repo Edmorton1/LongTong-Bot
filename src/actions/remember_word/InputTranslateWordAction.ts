@@ -24,6 +24,8 @@ class InputTranslateWordAction extends Action {
 
     await this.saveWordAndCreateRelation({userId, original, translate});
 
+    ctx.session.originalWord = undefined;
+
     ctx.reply(
       t('responses.start.word_saved', lng, {
         original,

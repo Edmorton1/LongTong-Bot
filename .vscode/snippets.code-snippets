@@ -18,5 +18,13 @@
       "export default ${TM_FILENAME_BASE};"
     ],
     "description": "Create Action class"
+  },
+  "Callback": {
+    "prefix": "callb",
+    "body": [
+      "callback$1(ctx: MyContext, lng: string) {",
+      "  $0",
+      "}"
+    ]
   }
 }

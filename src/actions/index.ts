@@ -1,12 +1,14 @@
-import { readdirSync, statSync } from 'node:fs';
-import { extname, join } from 'node:path';
-import { Action } from './Action';
-import type { MyContext } from '@interfaces/context';
+import {readdirSync, statSync} from 'node:fs';
+import {extname, join} from 'node:path';
+import type {MyContext} from '@interfaces/context';
+import {Action} from './Action';
 
 export const actions: Action[] = [];
 // TODO: Type duplicate
-export const callbacks: { name: string; handler: (ctx: MyContext) => void }[] =
-  [];
+export const callbacks: {
+  name: string;
+  handler: (ctx: MyContext, lng: string) => void;
+}[] = [];
 
 async function loadFilesRecursively(dir: string) {
   const entries = readdirSync(dir);

@@ -11,6 +11,18 @@
       "input_original": "Введи оригинальное слово",
       "input_translate": "Введи перевод",
       "word_saved": "Слово сохранено\nОригинал: {{original}}\nПеревод: {{translate}}"
+    },
+    "show_words_list": {
+      "edit_word": {
+        "callback": "Изменить перевод слова",
+        "input_original": "Введите исходное слово из списка",
+        "word_not_found": "Слово не найдено в вашем списке",
+        "input_translate": "Введите новый перевод слова",
+        "translate_changed": "Перевод слова был изменён"
+      },
+      "delete_word": "Удалить слово",
+      "export_txt": "Экспорт списка в TXT",
+      "export_json": "Экспорт списка в JSON"
     }
   }
 }

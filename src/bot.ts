@@ -40,6 +40,7 @@ bot.on(message('text'), async (ctx) => {
   console.log(ctx.session);
   const lng = ctx.from?.language_code ?? 'en';
 
+  console.log(ctx.message.reply_to_message);
   if (ctx.message.reply_to_message) {
     const original = ctx.message.reply_to_message.text;
 
@@ -75,7 +76,7 @@ console.log({ callbacks });
 for (const callback of callbacks) {
   const { name, handler } = callback;
 
-  bot.action(name, handler);
+  bot.action(name, (ctx) => handler(ctx, ctx.from.language_code ?? 'en'));
 }
 
 bot.launch(() => logger().info('BOT STARTED'));

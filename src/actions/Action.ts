@@ -16,7 +16,7 @@ export abstract class Action {
 
     return Object.getOwnPropertyNames(prototypes).reduce<
       // TODO: Type duplicate
-      { name: string; handler: (ctx: MyContext) => void }[]
+      { name: string; handler: (ctx: MyContext, lng: string) => void }[]
     >((acc, methodName) => {
       if (
         methodName.startsWith('callback') &&

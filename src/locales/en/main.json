@@ -11,6 +11,18 @@
       "input_original": "Enter original word",
       "input_translate": "Enter translate word",
       "word_saved": "Word saved\nOriginal: {{original}}\nTranslate: {{translate}}"
+    },
+    "show_words_list": {
+      "edit_word": {
+        "callback": "Change word translate",
+        "input_original": "Enter original word from list",
+        "word_not_found": "Word not found in your list",
+        "input_translate": "Enter new translate word",
+        "translate_changed": "Word translate was change"
+      },
+      "delete_word": "Delete word",
+      "export_txt": "Export list in txt",
+      "export_json": "Export list in JSON"
     }
   }
 }
