@@ -57,6 +57,8 @@ class ShowWordsListAction extends Action {
   }
 
   callbackEditWord(ctx: MyContext, lng: string) {
+    ctx.session.state = 'state_change_translate_original';
+
     ctx.reply(t('responses.show_words_list.edit_word.input_original', lng), {
       reply_markup: {
         force_reply: true
@@ -65,6 +67,8 @@ class ShowWordsListAction extends Action {
   }
 
   callbackDeleteWord(ctx: MyContext, lng: string) {
+    ctx.session.state = 'state_delete_word';
+
     ctx.reply(t('responses.show_words_list.delete_word.input_original', lng), {
       reply_markup: {
         force_reply: true

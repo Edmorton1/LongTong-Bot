@@ -40,13 +40,11 @@ bot.on(message('text'), async (ctx) => {
   console.log(ctx.session);
   const lng = getLng(ctx);
 
-  console.log(ctx.message.reply_to_message);
-  if (ctx.message.reply_to_message) {
-    const original = ctx.message.reply_to_message.text;
+  console.log(ctx.session.state);
+  const {state} = ctx.session;
 
-    const action = actions.find(
-      (action) => t(action.command, lng) === original
-    );
+  if (state) {
+    const action = actions.find((action) => action.command === state);
 
     if (action) {
       action.run(ctx);

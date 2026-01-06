@@ -6,10 +6,12 @@ import {Action} from '../../Action';
 
 class deleteWordAction extends Action {
   constructor() {
-    super('responses.show_words_list.delete_word.input_original');
+    super('state_delete_word');
   }
 
   async action(ctx: MyContext, lng: string) {
+    ctx.session.state = undefined;
+
     const word = ctx.message.text;
     const userId = getUserId(ctx);
 

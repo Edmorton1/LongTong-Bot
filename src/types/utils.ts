@@ -7,15 +7,15 @@ export type Flatten<T, Prefix extends string = ''> = {
     : `${Prefix}${K & string}`;
 }[keyof T];
 
-export type UnwrapColumn<T> =
+export type UnwrapColumns<T> =
   T extends ColumnType<infer S, any, any>
-    ? UnwrapColumn<S>
+    ? UnwrapColumns<S>
     : T extends Generated<infer S>
-      ? UnwrapColumn<S>
+      ? UnwrapColumns<S>
       : T extends Array<infer U>
-        ? UnwrapColumn<U>[]
+        ? UnwrapColumns<U>[]
         : T extends object
-          ? {[K in keyof T]: UnwrapColumn<T[K]>}
+          ? {[K in keyof T]: UnwrapColumns<T[K]>}
           : T;
 
 export type Commands = Flatten<typeof keys>;

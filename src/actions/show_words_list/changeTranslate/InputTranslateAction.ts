@@ -5,10 +5,12 @@ import {Action} from '../../Action';
 
 class InputTranslateAction extends Action {
   constructor() {
-    super('responses.show_words_list.edit_word.input_translate');
+    super('state_change_translate_translate');
   }
 
   async action(ctx: MyContext, lng: string) {
+    ctx.session.state = undefined;
+
     const translate = ctx.message.text;
     const wordId = ctx.session.wordIdForTranslate;
 

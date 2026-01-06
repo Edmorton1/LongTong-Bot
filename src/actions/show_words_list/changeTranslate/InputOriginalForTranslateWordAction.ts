@@ -6,7 +6,7 @@ import {Action} from '../../Action';
 
 class InputOriginalForTranslateWordAction extends Action {
   constructor() {
-    super('responses.show_words_list.edit_word.input_original');
+    super('state_change_translate_original');
   }
 
   async action(ctx: MyContext, lng: string) {
@@ -20,6 +20,8 @@ class InputOriginalForTranslateWordAction extends Action {
       ctx.reply(t('responses.show_words_list.edit_word.word_not_found', lng));
       return;
     }
+
+    ctx.session.state = 'state_change_translate_translate';
 
     ctx.session.wordIdForTranslate = wordId;
 

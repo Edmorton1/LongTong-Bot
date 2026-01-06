@@ -8,7 +8,7 @@ class RememberWordStartAction extends Action {
   }
 
   action(ctx: MyContext, lng: string) {
-    console.log({lng});
+    ctx.session.state = 'state_remember_word_original';
 
     ctx.reply(t('responses.start.input_original', lng), {
       reply_markup: {

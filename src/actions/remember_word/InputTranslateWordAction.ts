@@ -1,17 +1,19 @@
 import {pg} from '@connections';
 import type {Users, Words} from '@domain';
 import type {MyContext} from '@interfaces/context';
+import {getUserId} from '@utils';
 import {t} from '../../locales/i18n';
 import {Action} from '../Action';
 
 class InputTranslateWordAction extends Action {
   constructor() {
-    super('responses.start.input_translate');
+    super('state_remember_word_translate');
   }
 
   async action(ctx: MyContext, lng: string) {
-    // TODO: Улучшить тип
-    const {id: userId} = ctx.from!;
+    ctx.session.state = undefined;
+
+    const userId = getUserId(ctx);
 
     const original = ctx.session.originalWord;
 

@@ -3,7 +3,9 @@ import type {Commands} from '@interfaces/utils';
 import {getLng} from '@utils';
 
 export abstract class Action {
-  constructor(public command: Commands) {}
+  constructor(
+    public command: Commands | NonNullable<MyContext['session']['state']>
+  ) {}
 
   protected abstract action(ctx: MyContext, lng: string): void;
 

@@ -4,10 +4,12 @@ import {Action} from '../Action';
 
 class InputOriginalWordAction extends Action {
   constructor() {
-    super('responses.start.input_original');
+    super('state_remember_word_original');
   }
 
   action(ctx: MyContext, lng: string) {
+    ctx.session.state = 'state_remember_word_translate';
+
     ctx.session.originalWord = ctx.message.text;
 
     ctx.reply(t('responses.start.input_translate', lng), {
