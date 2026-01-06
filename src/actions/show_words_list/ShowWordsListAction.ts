@@ -17,8 +17,20 @@ class ShowWordsListAction extends Action {
 
     console.log(words);
 
+    if (!words.length) {
+      ctx.reply(t('responses.show_words_list.words_empty', lng));
+      return;
+    }
+
+    const asd = words
+      .map(
+        (qwe) =>
+          `${qwe.original} - ${qwe.translate}\n${t('words.correct', lng)}: ${qwe.correct}\n${t('words.incorrect', lng)}: ${qwe.incorrect}`
+      )
+      .join('\n\u200B\n');
+
     ctx.reply(
-      JSON.stringify(words),
+      asd,
       Markup.inlineKeyboard([
         [
           Markup.button.callback(

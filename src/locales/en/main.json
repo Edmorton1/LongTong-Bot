@@ -26,8 +26,13 @@
         "successful": "Word which you enter was successfully deleted",
         "not_found": "Word which you enter was not found"
       },
+      "words_empty": "Your word list is empty",
       "export_txt": "Export list in txt",
       "export_json": "Export list in JSON"
     }
+  },
+  "words": {
+    "correct": "correct",
+    "incorrect": "incorrect"
   }
 }
