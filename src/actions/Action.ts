@@ -1,5 +1,6 @@
-import type { MyContext } from '@interfaces/context';
-import type { Commands } from '@interfaces/utils';
+import type {MyContext} from '@interfaces/context';
+import type {Commands} from '@interfaces/utils';
+import {getLng} from '@utils';
 
 export abstract class Action {
   constructor(public command: Commands) {}
@@ -7,7 +8,7 @@ export abstract class Action {
   protected abstract action(ctx: MyContext, lng: string): void;
 
   public run(ctx: MyContext) {
-    const lng = ctx.from?.language_code ?? 'en';
+    const lng = getLng(ctx);
     this.action(ctx, lng);
   }
 
@@ -16,7 +17,7 @@ export abstract class Action {
 
     return Object.getOwnPropertyNames(prototypes).reduce<
       // TODO: Type duplicate
-      { name: string; handler: (ctx: MyContext, lng: string) => void }[]
+      {name: string; handler: (ctx: MyContext, lng: string) => void}[]
     >((acc, methodName) => {
       if (
         methodName.startsWith('callback') &&
@@ -32,7 +33,7 @@ export abstract class Action {
 
         acc.push({
           name: name.charAt(0).toLowerCase() + name.slice(1),
-          handler,
+          handler
         });
       }
 

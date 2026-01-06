@@ -1,51 +1,51 @@
-import { connect, logger } from '@connections';
-import type { MyContext } from '@interfaces/context';
-import { getEnv } from '@utils';
-import { Markup, session, Telegraf } from 'telegraf';
-import { message } from 'telegraf/filters';
-import { actions, callbacks } from './actions';
-import { saveUser } from './baza';
-import { t } from './locales/i18n';
+import {connect, logger} from '@connections';
+import type {MyContext} from '@interfaces/context';
+import {getEnv, getLng} from '@utils';
+import {Markup, session, Telegraf} from 'telegraf';
+import {message} from 'telegraf/filters';
+import {actions, callbacks} from './actions';
+import {saveUser} from './baza';
+import {t} from './locales/i18n';
 
 connect();
 
 const bot = new Telegraf<MyContext>(getEnv('BOT_KEY'));
 
-bot.use(session({ defaultSession: () => ({}) }));
+bot.use(session({defaultSession: () => ({})}));
 
 bot.start(async (ctx) => {
-  const { id, first_name: name } = ctx.from;
+  const {id, first_name: name} = ctx.from;
 
   // TODO: Дублирование убрать
-  const lng = ctx.from?.language_code ?? 'en';
+  const lng = getLng(ctx);
 
-  await saveUser({ id, name });
+  await saveUser(id);
 
   await ctx.reply(
-    t('welcome', lng, { name }),
+    t('welcome', lng, {name}),
     Markup.keyboard([
       [t('keyboard.start', lng)],
       [
         t('keyboard.remember_word', lng),
-        t('keyboard.load_word_dictionary', lng),
+        t('keyboard.load_word_dictionary', lng)
       ],
-      [t('keyboard.show_words_list', lng)],
+      [t('keyboard.show_words_list', lng)]
     ])
       .resize()
-      .oneTime(false),
+      .oneTime(false)
   );
 });
 
 bot.on(message('text'), async (ctx) => {
   console.log(ctx.session);
-  const lng = ctx.from?.language_code ?? 'en';
+  const lng = getLng(ctx);
 
   console.log(ctx.message.reply_to_message);
   if (ctx.message.reply_to_message) {
     const original = ctx.message.reply_to_message.text;
 
     const action = actions.find(
-      (action) => t(action.command, lng) === original,
+      (action) => t(action.command, lng) === original
     );
 
     if (action) {
@@ -55,12 +55,12 @@ bot.on(message('text'), async (ctx) => {
   }
 
   const action = actions.find(
-    (action) => t(action.command, lng) === ctx.message.text,
+    (action) => t(action.command, lng) === ctx.message.text
   );
 
   console.log(
     ctx.message.text,
-    actions.map((e) => e.command),
+    actions.map((e) => e.command)
   );
 
   if (action) {
@@ -71,10 +71,10 @@ bot.on(message('text'), async (ctx) => {
   ctx.reply('Не понял чё ты написал');
 });
 
-console.log({ callbacks });
+console.log({callbacks});
 
 for (const callback of callbacks) {
-  const { name, handler } = callback;
+  const {name, handler} = callback;
 
   bot.action(name, (ctx) => handler(ctx, ctx.from.language_code ?? 'en'));
 }

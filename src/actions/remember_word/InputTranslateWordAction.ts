@@ -22,7 +22,7 @@ class InputTranslateWordAction extends Action {
 
     const translate = ctx.message.text;
 
-    await this.saveWordAndCreateRelation({userId, original, translate});
+    await saveWordAndCreateRelation({userId, original, translate});
 
     ctx.session.originalWord = undefined;
 
@@ -33,24 +33,15 @@ class InputTranslateWordAction extends Action {
       })
     );
   }
+}
 
-  private saveWordAndCreateRelation(
-    word: {userId: Users['id']} & Omit<Words, 'id'>
-  ) {
-    const {userId, ...wordDto} = word;
-
-    return pg()
-      .transaction()
-      .execute(async (trx) => {
-        const {id: wordId} = await trx
-          .insertInto('words')
-          .values(wordDto)
-          .returning('id')
-          .executeTakeFirstOrThrow();
-
-        await trx.insertInto('relations').values({userId, wordId}).execute();
-      });
-  }
+function saveWordAndCreateRelation(
+  word: {userId: Users['id']} & Pick<Words, 'original' | 'translate'>
+) {
+  return pg()
+    .insertInto('words')
+    .values({...word})
+    .execute();
 }
 
 export default InputTranslateWordAction;

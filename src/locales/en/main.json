@@ -15,12 +15,17 @@
     "show_words_list": {
       "edit_word": {
         "callback": "Change word translate",
-        "input_original": "Enter original word from list",
+        "input_original": "Enter original word from list, which translate you want to change",
         "word_not_found": "Word not found in your list",
         "input_translate": "Enter new translate word",
         "translate_changed": "Word translate was change"
       },
-      "delete_word": "Delete word",
+      "delete_word": {
+        "callback": "Delete word",
+        "input_original": "Enter original word from list, which your want to delete",
+        "successful": "Word which you enter was successfully deleted",
+        "not_found": "Word which you enter was not found"
+      },
       "export_txt": "Export list in txt",
       "export_json": "Export list in JSON"
     }

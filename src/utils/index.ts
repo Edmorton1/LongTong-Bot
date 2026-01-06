@@ -1,4 +1,5 @@
 import getEnv from './getEnv';
-import refreshWordList from './refreshWordList';
+import getLng from './getLng';
+import getUserId from './getUserId';
 
-export {getEnv, refreshWordList};
+export {getEnv, getUserId, getLng};

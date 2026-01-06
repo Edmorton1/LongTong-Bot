@@ -1,5 +1,6 @@
+import {pg} from '@connections';
 import type {MyContext} from '@interfaces/context';
-import {refreshWordList} from '@utils';
+import {getUserId} from '@utils';
 import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
 import {Action} from '../Action';
@@ -10,13 +11,9 @@ class ShowWordsListAction extends Action {
   }
 
   async action(ctx: MyContext, lng: string) {
-    const id = ctx.from?.id;
+    const id = getUserId(ctx);
 
-    if (!id) {
-      throw new Error('Not have id from context');
-    }
-
-    const words = await refreshWordList(ctx, id);
+    const words = await getWordsList(id);
 
     console.log(words);
 
@@ -29,7 +26,7 @@ class ShowWordsListAction extends Action {
             'editWord'
           ),
           Markup.button.callback(
-            t('responses.show_words_list.delete_word', lng),
+            t('responses.show_words_list.delete_word.callback', lng),
             'deleteWord'
           )
         ],
@@ -56,7 +53,11 @@ class ShowWordsListAction extends Action {
   }
 
   callbackDeleteWord(ctx: MyContext, lng: string) {
-    ctx.reply('delete word');
+    ctx.reply(t('responses.show_words_list.delete_word.input_original', lng), {
+      reply_markup: {
+        force_reply: true
+      }
+    });
   }
 
   callbackExportTxt(ctx: MyContext, lng: string) {
@@ -66,6 +67,14 @@ class ShowWordsListAction extends Action {
   callbackExportJson(ctx: MyContext, lng: string) {
     ctx.reply('export json');
   }
+}
+
+function getWordsList(userId: number) {
+  return pg()
+    .selectFrom('words')
+    .select(['words.original', 'words.translate', 'correct', 'incorrect'])
+    .where('userId', '=', userId)
+    .execute();
 }
 
 export default ShowWordsListAction;
