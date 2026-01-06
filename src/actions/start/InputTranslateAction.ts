@@ -1,8 +1,17 @@
 import {pg} from '@connections';
 import type {MyContext} from '@interfaces/context';
 import {getUserId} from '@utils';
+import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
 import {Action} from '../Action';
+
+const getTranslateButton = (original: string) => [
+  Markup.button.url(
+    'Перевод в Google',
+    // TODO: Добавить язык
+    `https://translate.google.com/?hl=ru&sl=auto&tl=ru&text=${original}&op=translate`
+  )
+];
 
 class InputTranslateAction extends Action {
   constructor() {
@@ -11,22 +20,58 @@ class InputTranslateAction extends Action {
 
   async action(ctx: MyContext, lng: string) {
     const userId = getUserId(ctx);
-    const word = ctx.session.startWord;
+    const input = ctx.message.text;
+    const wordId = ctx.session.startWordId;
 
-    if (!word) {
-      ctx.reply(t(''));
+    ctx.session.state = undefined;
+    ctx.session.startWordId = undefined;
+
+    if (!wordId) {
+      throw new Error('Word not found!');
     }
 
-    const {} = await checkCorrectly(word, userId);
+    const wordFromDb = await checkCorrectly(input, wordId, userId);
+
+    console.log({
+      translInput: input,
+      transl2: wordFromDb?.translate
+    });
+
+    if (!wordFromDb) {
+      throw new Error('Word not found in db!');
+    }
+
+    const options = {
+      correct: String(wordFromDb.correct),
+      incorrect: String(wordFromDb.incorrect)
+    };
+
+    const translateButton = getTranslateButton(wordFromDb.original);
+
+    if (input === wordFromDb.translate) {
+      ctx.reply(
+        t('responses.start.correct', lng, options),
+        Markup.inlineKeyboard([translateButton])
+      );
+
+      return;
+    }
+
+    ctx.reply(
+      t('responses.start.incorrect', lng, options),
+      Markup.inlineKeyboard([
+        translateButton,
+        [Markup.button.callback('Ответ правильный', 'answerCorrect')]
+      ])
+    );
+  }
+
+  callbackAnswerCorrect(ctx: MyContext, lng: string) {
+    ctx.reply('calasdasd');
   }
 }
 
-function checkCorrectly(
-  word: NonNullable<MyContext['session']['startWord']>,
-  userId: number
-) {
-  const {wordId, translate} = word;
-
+function checkCorrectly(input: string, wordId: number, userId: number) {
   return pg()
     .updateTable('words')
     .where('userId', '=', userId)
@@ -34,19 +79,19 @@ function checkCorrectly(
     .set((qb) => ({
       correct: qb
         .case()
-        .when(qb('translate', '=', translate))
+        .when(qb('translate', '=', input))
         .then(qb('correct', '+', 1))
         .else(qb.ref('correct'))
         .end(),
 
       incorrect: qb
         .case()
-        .when(qb('translate', '!=', translate))
+        .when(qb('translate', '!=', input))
         .then(qb('incorrect', '+', 1))
         .else(qb.ref('incorrect'))
         .end()
     }))
-    .returning(['translate', 'correct', 'incorrect'])
+    .returning(['original', 'translate', 'correct', 'incorrect'])
     .executeTakeFirst();
 }
 

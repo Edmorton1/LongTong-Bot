@@ -17,7 +17,7 @@ type states =
 interface SessionData {
   originalWord?: string;
   wordIdForTranslate?: number;
-  startWord?: UnwrapColumns<Pick<Words, 'wordId' | 'original' | 'translate'>>;
+  startWordId?: number;
   state?: states;
 }
 

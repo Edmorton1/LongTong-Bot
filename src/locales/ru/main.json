@@ -8,6 +8,10 @@
   },
   "responses": {
     "start": {
+      "correct": "Правильно!\nКол-во правильных ответов: {{correct}}\nКол-во неправильных ответов: {{incorrect}}",
+      "incorrect": "Не правильно!\nКол-во правильных ответов: {{correct}}\nКол-во неправильных ответов: {{incorrect}}"
+    },
+    "remember_word": {
       "input_original": "Введи оригинальное слово",
       "input_translate": "Введи перевод",
       "word_saved": "Слово сохранено\nОригинал: {{original}}\nПеревод: {{translate}}"

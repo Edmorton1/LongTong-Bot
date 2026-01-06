@@ -18,7 +18,7 @@ class InputTranslateWordAction extends Action {
     const original = ctx.session.originalWord;
 
     if (!original) {
-      ctx.reply(t('responses.start.input_original', lng));
+      ctx.reply(t('responses.remember_word.input_original', lng));
       return;
     }
 
@@ -29,7 +29,7 @@ class InputTranslateWordAction extends Action {
     ctx.session.originalWord = undefined;
 
     ctx.reply(
-      t('responses.start.word_saved', lng, {
+      t('responses.remember_word.word_saved', lng, {
         original,
         translate
       })

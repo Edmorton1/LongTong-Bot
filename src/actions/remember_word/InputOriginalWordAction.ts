@@ -12,7 +12,7 @@ class InputOriginalWordAction extends Action {
 
     ctx.session.originalWord = ctx.message.text;
 
-    ctx.reply(t('responses.start.input_translate', lng), {
+    ctx.reply(t('responses.remember_word.input_translate', lng), {
       reply_markup: {
         force_reply: true
       }

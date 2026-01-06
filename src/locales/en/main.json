@@ -8,6 +8,10 @@
   },
   "responses": {
     "start": {
+      "correct": "Translate correctly\ncorrect: {{correct}}\nincorrect: {{incorrect}}",
+      "incorrect": "Translate incorrect\ncorrect: {{correct}}\nincorrect: {{incorrect}}"
+    },
+    "remember_word": {
       "input_original": "Enter original word",
       "input_translate": "Enter translate word",
       "word_saved": "Word saved\nOriginal: {{original}}\nTranslate: {{translate}}"

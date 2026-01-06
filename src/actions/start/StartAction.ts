@@ -19,11 +19,13 @@ class StartAction extends Action {
       return;
     }
 
+    const {wordId, original} = word;
+
     ctx.session.state = 'state_start_input_translate';
 
-    ctx.session.startWord = word;
+    ctx.session.startWordId = wordId;
 
-    ctx.reply(word.original, {
+    ctx.reply(original, {
       reply_markup: {
         force_reply: true
       }
@@ -35,7 +37,7 @@ function getWord(userId: number) {
   // TODO: Пока будет брать только самые старые слова
   return pg()
     .selectFrom('words')
-    .select(['wordId', 'original', 'translate'])
+    .select(['wordId', 'original'])
     .where('userId', '=', userId)
     .limit(1)
     .orderBy('updatedAt', 'asc')
