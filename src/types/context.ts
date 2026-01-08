@@ -1,6 +1,4 @@
-import type {Words} from '@domain';
 import type {Context} from 'telegraf';
-import type {UnwrapColumns} from './utils';
 
 // export type SessionWord = UnwrapColumn<
 //   Omit<Words, 'id'> & Pick<Words, 'wordId' | 'correct' | 'incorrect'>
@@ -19,6 +17,8 @@ interface SessionData {
   wordIdForTranslate?: number;
   startWordId?: number;
   state?: states;
+  // afterCallback?: (ctx: MyContext, lng: string) => void;
+  afterCallback?: () => void;
 }
 
 export type MyContext = Context & {session: SessionData};

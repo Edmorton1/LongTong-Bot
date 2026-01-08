@@ -5,13 +5,12 @@ import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
 import {Action} from '../Action';
 
-const getTranslateButton = (original: string) => [
+const getTranslateButton = (original: string) =>
   Markup.button.url(
     'Перевод в Google',
     // TODO: Добавить язык
     `https://translate.google.com/?hl=ru&sl=auto&tl=ru&text=${original}&op=translate`
-  )
-];
+  );
 
 class InputTranslateAction extends Action {
   constructor() {
@@ -57,18 +56,34 @@ class InputTranslateAction extends Action {
       return;
     }
 
-    ctx.reply(
+    const sent = ctx.reply(
       t('responses.start.incorrect', lng, options),
       Markup.inlineKeyboard([
-        translateButton,
+        [translateButton],
         [Markup.button.callback('Ответ правильный', 'answerCorrect')]
       ])
     );
+
+    ctx.session.afterCallback = async () => {
+      await ctx.telegram.editMessageReplyMarkup(
+        ctx.chat?.id,
+        (await sent).message_id,
+        undefined,
+        Markup.inlineKeyboard([translateButton]).reply_markup
+      );
+    };
+
+    // ctx.reply(
+    //   'asdasd',
+    //   Markup.keyboard([['Ответ правильный'], [t('keyboard.start', lng)]])
+    // );
   }
 
-  callbackAnswerCorrect(ctx: MyContext, lng: string) {
-    ctx.reply('calasdasd');
+  async callbackAnswerCorrect(ctx: MyContext, lng: string) {
+    ctx.reply('asdasd');
   }
+
+  // TODO: Добавить функцию которая чё-то делает после отправки сообщения например чистит инлайны
 }
 
 function checkCorrectly(input: string, wordId: number, userId: number) {

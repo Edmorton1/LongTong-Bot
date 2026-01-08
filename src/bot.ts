@@ -37,6 +37,11 @@ bot.start(async (ctx) => {
 });
 
 bot.on(message('text'), async (ctx) => {
+  if (ctx.session.afterCallback) {
+    ctx.session.afterCallback();
+    ctx.session.afterCallback = undefined;
+  }
+
   console.log(ctx.session);
   const lng = getLng(ctx);
 
@@ -74,7 +79,13 @@ console.log({callbacks});
 for (const callback of callbacks) {
   const {name, handler} = callback;
 
-  bot.action(name, (ctx) => handler(ctx, ctx.from.language_code ?? 'en'));
+  bot.action(name, (ctx) => {
+    if (ctx.session.afterCallback) {
+      ctx.session.afterCallback();
+      ctx.session.afterCallback = undefined;
+    }
+    handler(ctx, ctx.from.language_code ?? 'en');
+  });
 }
 
 bot.launch(() => logger().info('BOT STARTED'));
