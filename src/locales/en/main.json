@@ -1,10 +1,16 @@
 {
+  "start": "Start working with bot",
+  "abort": {
+    "description": "Aborted current operation",
+    "aborted": "Current command was aborted"
+  },
+  "unknown": "Unknown command",
   "welcome": "Hello, {{name}}! I am bot on Telegraf on TypeScript",
   "keyboard": {
     "start": "🏁 Start",
     "remember_word": "📝 Remember word",
-    "load_word_dictionary": "📤 Load word dictionary",
-    "show_words_list": "📋 Show words list"
+    "load_word_dictionary": "📤 Load dictionary",
+    "show_dictionary": "📋 Show words list"
   },
   "responses": {
     "start": {
@@ -14,9 +20,10 @@
     "remember_word": {
       "input_original": "Enter original word",
       "input_translate": "Enter translate word",
-      "word_saved": "Word saved\nOriginal: {{original}}\nTranslate: {{translate}}"
+      "unique_error": "Word already exists in your dictionary",
+      "word_saved": "Word saved\n\u200B\nOriginal: {{original}}\nTranslate: {{translate}}"
     },
-    "show_words_list": {
+    "show_dictionary": {
       "edit_word": {
         "callback": "Change word translate",
         "input_original": "Enter original word from list, which translate you want to change",

@@ -31,7 +31,8 @@
       "@connections": ["./src/connections/index.ts"],
       "@utils": ["./src/utils/index.ts"],
       "@domain": ["./src/connections/postgres/types.ts"],
-      "@interfaces/*": ["./src/types/*"]
+      "@interfaces/*": ["./src/types/*"],
+      "@telefy/*": ["./src/framework/*"]
     }
   }
 }

@@ -1,10 +1,16 @@
 {
+  "start": "Начать работу с ботом",
+  "abort": {
+    "description": "Прерывает текущую операцию",
+    "aborted": "Текущая операция была прервана"
+  },
+  "unknown": "Неизвестная команда",
   "welcome": "Привет, {{name}}! Я бот на Telegraf с TypeScript",
   "keyboard": {
     "start": "🏁 Старт",
     "remember_word": "📝 Запомнить слово",
     "load_word_dictionary": "📤 Загрузить список слов",
-    "show_words_list": "📋 Вывести список слов"
+    "show_dictionary": "📋 Вывести список слов"
   },
   "responses": {
     "start": {
@@ -14,9 +20,10 @@
     "remember_word": {
       "input_original": "Введи оригинальное слово",
       "input_translate": "Введи перевод",
+      "unique_error": "Слово уже есть в вашем словаре",
       "word_saved": "Слово сохранено\nОригинал: {{original}}\nПеревод: {{translate}}"
     },
-    "show_words_list": {
+    "show_dictionary": {
       "edit_word": {
         "callback": "Изменить перевод слова",
         "input_original": "Введите оригинальное слово из списка, перевод которого вы хотите изменить",

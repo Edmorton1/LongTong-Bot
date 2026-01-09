@@ -1,16 +1,14 @@
 import {pg} from '@connections';
-import type {MyContext} from '@interfaces/context';
+import {type MyContext, STATES} from '@interfaces/context';
+import {EndHandler} from '@telefy/EndHandler';
 import {getUserId} from '@utils';
 import {t} from '../../../locales/i18n';
-import {Action} from '../../Action';
 
-class deleteWordAction extends Action {
-  constructor() {
-    super('state_delete_word');
-  }
+class End extends EndHandler {
+  react = STATES.deleteWord;
 
   async action(ctx: MyContext, lng: string) {
-    ctx.session.state = undefined;
+    ctx.session.state.type = undefined;
 
     const word = ctx.message.text;
     const userId = getUserId(ctx);
@@ -18,11 +16,11 @@ class deleteWordAction extends Action {
     const isDeleted = await deleteWord(word, userId);
 
     if (!isDeleted) {
-      ctx.reply(t('responses.show_words_list.delete_word.not_found', lng));
+      ctx.reply(t('responses.show_dictionary.delete_word.not_found', lng));
       return;
     }
 
-    ctx.reply(t('responses.show_words_list.delete_word.successful', lng));
+    ctx.reply(t('responses.show_dictionary.delete_word.successful', lng));
   }
 }
 
@@ -41,4 +39,4 @@ async function deleteWord(word: string, userId: number) {
   return true;
 }
 
-export default deleteWordAction;
+export default End;

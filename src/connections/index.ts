@@ -1,12 +1,15 @@
-import Logger from './logger/logger';
-import Postgres from './postgres/postgres';
+import {Logger} from './logger/logger';
+import {Postgres} from './postgres/postgres';
+
+const postgresInstance = new Postgres();
+const loggerInstance = new Logger();
 
 const connect = () => {
-  Logger.connect();
-  Postgres.connect();
+  loggerInstance.connect();
+  postgresInstance.connect();
 };
 
-const logger = () => Logger.get();
-const pg = () => Postgres.get();
+const logger = () => loggerInstance.get();
+const pg = () => postgresInstance.get();
 
 export {connect, logger, pg};

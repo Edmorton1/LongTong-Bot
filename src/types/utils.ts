@@ -18,4 +18,4 @@ export type UnwrapColumns<T> =
           ? {[K in keyof T]: UnwrapColumns<T[K]>}
           : T;
 
-export type Commands = Flatten<typeof keys>;
+export type TextCommands = Flatten<typeof keys>;

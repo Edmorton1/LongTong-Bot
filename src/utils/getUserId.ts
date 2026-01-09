@@ -1,6 +1,6 @@
 import type {MyContext} from '@interfaces/context';
 
-function getUserId(ctx: MyContext) {
+export function getUserId(ctx: MyContext) {
   const id = ctx.from?.id;
 
   if (!id) {

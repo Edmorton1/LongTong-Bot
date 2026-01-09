@@ -4,7 +4,7 @@ import {createDialect} from '../../../.config/dialect';
 import type {Connection} from '../types';
 import type {DB} from './types';
 
-class Postgres implements Connection {
+export class Postgres implements Connection {
   private _pg: Kysely<DB> | null = null;
 
   public connect() {
@@ -27,5 +27,3 @@ class Postgres implements Connection {
     }
   }
 }
-
-export default new Postgres();

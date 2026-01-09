@@ -13,7 +13,7 @@ const config: LoggerOptions = {
       : undefined
 };
 
-class Logger implements Connection {
+export class Logger implements Connection {
   private _logger: PinoLogger | null = null;
 
   public connect = () => {
@@ -36,5 +36,3 @@ class Logger implements Connection {
     }
   }
 }
-
-export default new Logger();

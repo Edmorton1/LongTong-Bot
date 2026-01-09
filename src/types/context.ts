@@ -1,24 +1,24 @@
 import type {Context} from 'telegraf';
 
-// export type SessionWord = UnwrapColumn<
-//   Omit<Words, 'id'> & Pick<Words, 'wordId' | 'correct' | 'incorrect'>
-// >;
+export const STATES = {
+  rememberWordOriginal: 'state_remember_word_original',
+  rememberWordTranslate: 'state_remember_word_translate',
+  changeTranslateOriginal: 'state_change_translate_original',
+  changeTranslateTranslate: 'state_change_translate_translate',
+  deleteWord: 'state_delete_word',
+  startInputTranslate: 'state_start_input_translate'
+} as const;
 
-type states =
-  | 'state_remember_word_original'
-  | 'state_remember_word_translate'
-  | 'state_change_translate_original'
-  | 'state_change_translate_translate'
-  | 'state_delete_word'
-  | 'state_start_input_translate';
+export type States = (typeof STATES)[keyof typeof STATES];
 
 interface SessionData {
-  originalWord?: string;
-  wordIdForTranslate?: number;
-  startWordId?: number;
-  state?: states;
-  // afterCallback?: (ctx: MyContext, lng: string) => void;
+  state: {
+    type?: States;
+    data?: any;
+  };
   afterCallback?: () => void;
+  action?: any;
+  last_message_id?: number;
 }
 
 export type MyContext = Context & {session: SessionData};
