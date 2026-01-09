@@ -10,7 +10,7 @@ export abstract class Handler {
     public command: {text: TextCommands; command: Commands} | undefined
   ) {}
 
-  protected abstract action(ctx: MyContext, lng: string): void;
+  protected abstract action(ctx: MyContext, lng: string): void | Promise<void>;
 
   public run(ctx: MyContext) {
     const lng = getLng(ctx);

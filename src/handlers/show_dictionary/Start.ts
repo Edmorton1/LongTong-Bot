@@ -1,10 +1,10 @@
 import {pg} from '@connections';
 import {COMMANDS} from '@interfaces/commands';
-import {type MyContext, STATES, type States} from '@interfaces/context';
-import type {TextCommands} from '@interfaces/utils';
+import {type MyContext, STATES} from '@interfaces/context';
 import {buttonCallback} from '@telefy/callbackButton';
 import {StartHandler} from '@telefy/StartHandler';
-import {getUserId} from '@utils';
+import {getCallback, getUserId} from '@utils';
+import {sql} from 'kysely';
 import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
 
@@ -41,7 +41,7 @@ class Start extends StartHandler {
         [
           buttonCallback(
             t('responses.show_dictionary.edit_word.callback', lng),
-            'editWord',
+            'changeTranslate',
             getCallback(
               STATES.changeTranslateOriginal,
               'responses.show_dictionary.edit_word.input_original'
@@ -57,22 +57,59 @@ class Start extends StartHandler {
           )
         ],
         [
-          Markup.button.callback(
+          buttonCallback(
             t('responses.show_dictionary.export_txt', lng),
-            'exportTxt'
-          ),
+            'exportTxt',
+            exportTxtCallback
+          )
         ]
       ])
     );
   }
 }
 
-function getCallback(state: States, textCommand: TextCommands) {
-  return (ctx: MyContext, lng: string) => {
-    ctx.session.state.type = state;
+const getTxt = async (userId: number) => {
+  const text = (
+    await pg()
+      .selectFrom(
+        pg()
+          .selectFrom('words')
+          .select(
+            sql`STRING_AGG(original || ' - ' || translate, E'\n')`.as(
+              'daily_words'
+            )
+          )
+          .where('userId', '=', userId)
+          .groupBy(sql`"updatedAt"::date`)
+          .orderBy(sql`"updatedAt"::date`)
+          .as('daily')
+      )
+      .select(sql`STRING_AGG(daily_words, E'\n\n')`.as('all_words'))
+      .executeTakeFirst()
+  )?.all_words;
 
-    ctx.reply(t(textCommand, lng));
-  };
+  if (!text) {
+    throw new Error('Word list-string is empty');
+  }
+
+  if (typeof text !== 'string') {
+    throw new Error('Typeof text is not a string');
+  }
+
+  return text;
+};
+
+async function exportTxtCallback(ctx: MyContext) {
+  const userId = getUserId(ctx);
+
+  const text = await getTxt(userId);
+
+  const buffer = Buffer.from(text, 'utf-8');
+
+  ctx.replyWithDocument({
+    source: buffer,
+    filename: 'dict.txt'
+  });
 }
 
 function getWordsList(userId: number) {

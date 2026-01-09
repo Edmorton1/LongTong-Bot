@@ -5,6 +5,7 @@
     "aborted": "Current command was aborted"
   },
   "unknown": "Unknown command",
+  "choose_handler": "Choose action:",
   "welcome": "Hello, {{name}}! I am bot on Telegraf on TypeScript",
   "keyboard": {
     "translate_word": "🏁 Start",
@@ -44,8 +45,7 @@
         "not_found": "Word which you enter was not found"
       },
       "words_empty": "Your word list is empty",
-      "export_txt": "Export list in txt",
-      "export_json": "Export list in JSON"
+      "export_txt": "Export list in txt"
     }
   },
   "words": {

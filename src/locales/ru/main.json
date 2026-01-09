@@ -5,6 +5,7 @@
     "aborted": "Текущая операция была прервана"
   },
   "unknown": "Неизвестная команда",
+  "choose_handler": "Выберите действие:",
   "welcome": "Привет, {{name}}! Я бот на Telegraf с TypeScript",
   "keyboard": {
     "translate_word": "🏁 Старт",
@@ -44,8 +45,7 @@
         "not_found": "Слово, которое вы ввели, не найдено"
       },
       "words_empty": "Ваш список слов пуст",
-      "export_txt": "Экспорт списка в TXT",
-      "export_json": "Экспорт списка в JSON"
+      "export_txt": "Экспорт списка в TXT"
     }
   },
   "words": {

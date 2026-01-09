@@ -1,4 +1,4 @@
-import {logger, pg} from '@connections';
+import {logger} from '@connections';
 import {COMMAND_DESCRIPTIONS, COMMANDS} from '@interfaces/commands';
 import type {MyContext} from '@interfaces/context';
 import ActionsManager from '@telefy/ActionsManager';
@@ -7,7 +7,7 @@ import type {EndHandler} from '@telefy/EndHandler';
 import type {IntermediateHandler} from '@telefy/IntermediateHandler';
 import {loadDirectories} from '@telefy/loadDirectories';
 import {getMenu} from '@telefy/Menu';
-import {getLng, getTxt, getUserId} from '@utils';
+import {getLng} from '@utils';
 import {session, type Telegraf} from 'telegraf';
 import {message} from 'telegraf/filters';
 import {t} from '../locales/i18n';
@@ -85,7 +85,9 @@ export const start = async (bot: Telegraf<MyContext>) => {
 
     useAfterCallback(ctx);
 
-    ctx.reply(t('abort.aborted', lng));
+    const menu = getMenu(lng);
+
+    ctx.reply(t('abort.aborted', lng), menu);
   });
 
   for (const handler of allHandlers.start) {
@@ -104,7 +106,8 @@ export const start = async (bot: Telegraf<MyContext>) => {
     );
 
     if (!handler) {
-      ctx.reply(t('unknown', lng));
+      const menu = getMenu(lng);
+      ctx.reply(t('unknown', lng), menu);
       return;
     }
 
