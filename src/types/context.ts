@@ -6,7 +6,8 @@ export const STATES = {
   changeTranslateOriginal: 'state_change_translate_original',
   changeTranslateTranslate: 'state_change_translate_translate',
   deleteWord: 'state_delete_word',
-  startInputTranslate: 'state_start_input_translate'
+  startInputTranslate: 'state_start_input_translate',
+  loadDictionary: 'state_load_dictionary'
 } as const;
 
 export type States = (typeof STATES)[keyof typeof STATES];

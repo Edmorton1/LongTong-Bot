@@ -3,15 +3,15 @@ import {t} from '../locales/i18n';
 import {allHandlers} from './allHandlers';
 
 export const getMenu = (lng: string) => {
-  const [remember_word, show_dictionary, load_dict, start] =
+  const [remember_word, show_dictionary, load_dict, translate_word] =
     allHandlers.start.map((e) => t(e.command.text, lng));
 
-  if (!remember_word || !show_dictionary || !load_dict || !start) {
+  if (!remember_word || !show_dictionary || !load_dict || !translate_word) {
     throw new Error('Invalid menu configuration');
   }
 
   return Markup.keyboard([
-    [start],
+    [translate_word],
     [remember_word, show_dictionary],
     [load_dict]
   ])

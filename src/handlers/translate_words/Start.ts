@@ -2,13 +2,14 @@ import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
 import {StartHandler} from '@telefy/StartHandler';
 import {getUserId} from '@utils';
+import {sql} from 'kysely';
 import {t} from '../../locales/i18n';
 
 class Start extends StartHandler {
   next = STATES.startInputTranslate;
 
   constructor() {
-    super({command: 'translate_words', text: 'keyboard.start'});
+    super({command: 'translate_words', text: 'keyboard.translate_word'});
   }
 
   async action(ctx: MyContext, lng: string) {
@@ -31,12 +32,23 @@ class Start extends StartHandler {
 }
 
 function getWord(userId: number) {
-  // TODO: Пока будет брать только самые старые слова
   return pg()
     .selectFrom('words')
     .select(['wordId', 'original'])
     .where('userId', '=', userId)
-    .limit(1)
+    .orderBy(
+      sql`
+        CASE
+          WHEN "correct" = 0 AND "incorrect" = 0 THEN 0
+          WHEN "correct" = "incorrect" THEN 1
+          WHEN "incorrect" > "correct" THEN 2
+          ELSE 3
+        END
+      `,
+      'asc'
+    )
+    .orderBy('correct', 'asc')
+    .orderBy('updatedAt', 'asc')
     .orderBy('updatedAt', 'asc')
     .executeTakeFirst();
 }

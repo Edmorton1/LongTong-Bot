@@ -1,18 +1,21 @@
-import {type MyContext, STATES, type States} from '@interfaces/context';
+import {type MyContext, STATES} from '@interfaces/context';
 import {StartHandler} from '@telefy/StartHandler';
+import {t} from '../../locales/i18n';
 
 class Start extends StartHandler {
-  // next = STATES.
+  next = STATES.loadDictionary;
 
   constructor() {
     super({
       command: 'load_dictionary',
-      text: 'keyboard.load_word_dictionary'
+      text: 'keyboard.load_dictionary'
     });
   }
 
   action(ctx: MyContext, lng: string) {
-    ctx.reply('mock word dictionary');
+    ctx.session.state.type = 'state_load_dictionary';
+
+    ctx.reply(t('responses.load_dictionary.info', lng));
   }
 }
 

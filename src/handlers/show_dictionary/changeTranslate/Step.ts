@@ -16,6 +16,7 @@ class Step extends IntermediateHandler {
     const wordId = (await getWordIdByOriginal(original, userId))?.wordId;
 
     if (!wordId) {
+      ctx.session.state.type = undefined;
       ctx.reply(t('responses.show_dictionary.edit_word.word_not_found', lng));
       return;
     }

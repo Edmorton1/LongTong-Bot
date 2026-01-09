@@ -30,7 +30,7 @@ class End extends EndHandler {
         ctx.reply(t('responses.remember_word.unique_error', lng));
         return;
       }
-      logger().error(JSON.stringify(err));
+      logger().error(err);
       throw err;
     }
 

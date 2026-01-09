@@ -7,15 +7,21 @@
   "unknown": "Неизвестная команда",
   "welcome": "Привет, {{name}}! Я бот на Telegraf с TypeScript",
   "keyboard": {
-    "start": "🏁 Старт",
+    "translate_word": "🏁 Старт",
     "remember_word": "📝 Запомнить слово",
-    "load_word_dictionary": "📤 Загрузить список слов",
+    "load_dictionary": "📤 Загрузить список слов",
     "show_dictionary": "📋 Вывести список слов"
   },
   "responses": {
-    "start": {
+    "translate_word": {
       "correct": "Правильно!\nКол-во правильных ответов: {{correct}}\nКол-во неправильных ответов: {{incorrect}}",
       "incorrect": "Не правильно!\nКол-во правильных ответов: {{correct}}\nКол-во неправильных ответов: {{incorrect}}"
+    },
+    "load_dictionary": {
+      "info": "Как загружать? Варианты\nНаписать сообщение в формате\nслово - перевод\nЗагрузить .txt файл меньше 500KB в формате\nслово - перевод",
+      "not_correct_file": "Файл некорректен. Должен быть .txt и text/plain",
+      "big_size": "Файл должен быть меньше чем 500KB",
+      "successful": "Все слова успешно добавлены!"
     },
     "remember_word": {
       "input_original": "Введи оригинальное слово",

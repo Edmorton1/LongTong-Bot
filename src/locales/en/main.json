@@ -7,15 +7,21 @@
   "unknown": "Unknown command",
   "welcome": "Hello, {{name}}! I am bot on Telegraf on TypeScript",
   "keyboard": {
-    "start": "🏁 Start",
+    "translate_word": "🏁 Start",
     "remember_word": "📝 Remember word",
-    "load_word_dictionary": "📤 Load dictionary",
+    "load_dictionary": "📤 Load dictionary",
     "show_dictionary": "📋 Show words list"
   },
   "responses": {
-    "start": {
+    "translate_word": {
       "correct": "Translate correctly\ncorrect: {{correct}}\nincorrect: {{incorrect}}",
       "incorrect": "Translate incorrect\ncorrect: {{correct}}\nincorrect: {{incorrect}}"
+    },
+    "load_dictionary": {
+      "info": "How upload? Variants:\nWrite message in format\nword - translate\nUpload .txt file less than 500KB in format\nword - translate",
+      "not_correct_file": "File not correct. Should be .txt and text/plain",
+      "big_size": "File should be less than 500KB",
+      "successful": "All words successfully added!"
     },
     "remember_word": {
       "input_original": "Enter original word",

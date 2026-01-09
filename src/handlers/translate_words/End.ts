@@ -41,7 +41,7 @@ class End extends EndHandler {
 
     if (input === wordFromDb.translate) {
       ctx.reply(
-        t('responses.start.correct', lng, createOptions(wordFromDb)),
+        t('responses.translate_word.correct', lng, createOptions(wordFromDb)),
         Markup.inlineKeyboard([translateButton])
       );
 
@@ -51,7 +51,7 @@ class End extends EndHandler {
     ctx.session.action = wordId;
 
     const sent = ctx.reply(
-      t('responses.start.incorrect', lng, createOptions(wordFromDb)),
+      t('responses.translate_word.incorrect', lng, createOptions(wordFromDb)),
       Markup.inlineKeyboard([
         [translateButton],
         [buttonCallback('Ответ правильный', 'answer_correct', answerCorrect)]
@@ -90,7 +90,7 @@ async function answerCorrect(ctx: MyContext, lng: string) {
     ctx.chat?.id,
     last_message_id,
     undefined,
-    t('responses.start.correct', lng, createOptions(correctUpdate)),
+    t('responses.translate_word.correct', lng, createOptions(correctUpdate)),
     Markup.inlineKeyboard([getTranslateButton(correctUpdate.original)])
   );
 }

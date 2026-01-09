@@ -61,10 +61,6 @@ class Start extends StartHandler {
             t('responses.show_dictionary.export_txt', lng),
             'exportTxt'
           ),
-          Markup.button.callback(
-            t('responses.show_dictionary.export_json', lng),
-            'exportJson'
-          )
         ]
       ])
     );

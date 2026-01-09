@@ -25,10 +25,10 @@ start(bot);
 //   await ctx.reply(
 //     t('welcome', lng, {name}),
 //     Markup.keyboard([
-//       [t('keyboard.start', lng)],
+//       [t('keyboard.translate_word', lng)],
 //       [
 //         t('keyboard.remember_word', lng),
-//         t('keyboard.load_word_dictionary', lng)
+//         t('keyboard.load_dictionary', lng)
 //       ],
 //       [t('keyboard.show_dictionary', lng)]
 //     ])
