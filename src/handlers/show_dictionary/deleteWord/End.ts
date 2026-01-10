@@ -1,5 +1,5 @@
 import {pg} from '@connections';
-import {type MyContext, STATES} from '@interfaces/context';
+import {STATES, type TextContext} from '@interfaces/context';
 import {EndHandler} from '@telefy/handlers/EndHandler';
 import {getUserId} from '@telefy/utils';
 import {t} from '../../../locales/i18n';
@@ -7,7 +7,7 @@ import {t} from '../../../locales/i18n';
 class End extends EndHandler {
   react = STATES.deleteWord;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext, lng: string) {
     ctx.session.state.type = undefined;
 
     const word = ctx.message.text;

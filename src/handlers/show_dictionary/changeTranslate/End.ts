@@ -1,12 +1,12 @@
 import {pg} from '@connections';
-import {type MyContext, STATES} from '@interfaces/context';
+import {STATES, type TextContext} from '@interfaces/context';
 import {EndHandler} from '@telefy/handlers/EndHandler';
 import {t} from '../../../locales/i18n';
 
 class End extends EndHandler {
   react = STATES.changeTranslateTranslate;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext, lng: string) {
     ctx.session.state.type = undefined;
     const wordId = ctx.session.state.data;
     ctx.session.state.data = undefined;

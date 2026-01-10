@@ -8,7 +8,7 @@ import type {EndHandler} from '@telefy/handlers/EndHandler';
 import type {IntermediateHandler} from '@telefy/handlers/IntermediateHandler';
 import {loadDirectories} from '@telefy/loadDirectories';
 import {getMenu} from '@telefy/Menu';
-import {getLng, getUserId} from '@telefy/utils';
+import {getEnv, getLng, getUserId} from '@telefy/utils';
 import {session, type Telegraf} from 'telegraf';
 import {message} from 'telegraf/filters';
 import {t} from '../locales/i18n';
@@ -17,8 +17,9 @@ import {t} from '../locales/i18n';
 
 async function setCommands(bot: Telegraf<MyContext>, lngs: string[]) {
   for (const lng of lngs) {
+    const keys = Object.keys(COMMANDS) as (keyof typeof COMMANDS)[];
     await bot.telegram.setMyCommands(
-      Object.keys(COMMANDS).map((key) => ({
+      keys.map((key) => ({
         command: COMMANDS[key],
         description: t(COMMAND_DESCRIPTIONS[key], lng)
       })),
@@ -60,7 +61,9 @@ export const start = async (bot: Telegraf<MyContext>) => {
 
   await loadDirectories(__dirname);
 
-  // setCommands(bot, ['en', 'ru']);
+  if (getEnv('NODE_ENV') === 'production') {
+    setCommands(bot, ['en', 'ru']);
+  }
 
   bot.use(
     session({

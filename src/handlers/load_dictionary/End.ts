@@ -1,5 +1,5 @@
 import {logger, pg} from '@connections';
-import {type MyContext, STATES} from '@interfaces/context';
+import {type FileContext, STATES, type TextContext} from '@interfaces/context';
 import {EndHandler} from '@telefy/handlers/EndHandler';
 import {getTxt, getUserId} from '@telefy/utils';
 import {t} from '../../locales/i18n';
@@ -10,16 +10,17 @@ const formatError = (line: string, index: number) =>
   line +
   '\n```\n';
 
+const LINE_REGEX = /^.+ [-–—] .+$/;
+
 class End extends EndHandler {
   react = STATES.loadDictionary;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext | FileContext, lng: string) {
     ctx.session.state.type = undefined;
-    const LINE_REGEX = /^.+ [-–—] .+$/;
 
     let text: string | undefined;
 
-    if (ctx.message.document) {
+    if (isFileContext(ctx)) {
       try {
         text = await getTxt(ctx);
       } catch (err) {
@@ -58,7 +59,6 @@ class End extends EndHandler {
             throw new Error(formatError(trimmed, i));
           }
 
-          // Если слово уже есть, перезаписываем перевод новым
           acc.set(parts[0].trim(), parts[1].trim());
 
           return acc;
@@ -93,6 +93,10 @@ function uploadWords(words: [string, string][], userId: number) {
       })
     )
     .execute();
+}
+
+function isFileContext(ctx: TextContext | FileContext): ctx is FileContext {
+  return Object.hasOwn(ctx.message, 'document');
 }
 
 export default End;

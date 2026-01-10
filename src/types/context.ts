@@ -1,4 +1,5 @@
-import type {Context} from 'telegraf';
+import type {Context, NarrowedContext} from 'telegraf';
+import type {Message, Update} from 'telegraf/types';
 
 export const STATES = {
   rememberWordOriginal: 'state_remember_word_original',
@@ -23,3 +24,12 @@ interface SessionData {
 }
 
 export type MyContext = Context & {session: SessionData};
+
+export type CreateContext<T extends Message> = NarrowedContext<
+  MyContext,
+  Update.MessageUpdate<T>
+>;
+
+export type TextContext = CreateContext<Message.TextMessage>;
+
+export type FileContext = CreateContext<Message.DocumentMessage>;

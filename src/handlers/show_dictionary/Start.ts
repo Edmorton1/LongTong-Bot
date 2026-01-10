@@ -29,12 +29,12 @@ class Start extends StartHandler {
       return text;
     });
 
-    if (!chunks.length) {
+    const lastChunk = chunks.pop();
+
+    if (!lastChunk) {
       ctx.reply(t('responses.show_dictionary.words_empty'));
       return;
     }
-
-    const lastChunk = chunks.pop()!;
 
     for (const chunk of chunks) {
       await ctx.reply(chunk);

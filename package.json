@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "lint": "biome lint . --fix",
+    "lint:unsafe": "biome lint . --fix --write --unsafe",
     "watch": "tsc --watch --noEmit",
     "dev": "bun --watch ./src/index.ts",
     "start": "bun ./src/index.ts",

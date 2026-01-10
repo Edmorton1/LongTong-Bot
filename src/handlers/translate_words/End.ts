@@ -1,5 +1,5 @@
 import {pg} from '@connections';
-import {type MyContext, STATES} from '@interfaces/context';
+import {type MyContext, STATES, type TextContext} from '@interfaces/context';
 import {buttonCallback} from '@telefy/callbackButton';
 import {EndHandler} from '@telefy/handlers/EndHandler';
 import {getUserId} from '@telefy/utils';
@@ -23,7 +23,7 @@ const createOptions = (wordFromDb: {correct: number; incorrect: number}) => {
 class End extends EndHandler {
   react = STATES.startInputTranslate;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext, lng: string) {
     const userId = getUserId(ctx);
     const input = ctx.message.text;
     const wordId = ctx.session.state.data;

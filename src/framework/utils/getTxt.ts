@@ -1,8 +1,8 @@
-import type {MyContext} from '@interfaces/context';
+import type {FileContext, } from '@interfaces/context';
 import {getLng} from '@telefy/utils';
 import {t} from '../../locales/i18n';
 
-const getTxt = async (ctx: MyContext): Promise<string> => {
+const getTxt = async (ctx: FileContext): Promise<string> => {
   const document = ctx.message.document;
 
   const link = (await ctx.telegram.getFileLink(document.file_id)).href;

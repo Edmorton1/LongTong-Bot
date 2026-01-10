@@ -1,5 +1,5 @@
 import {pg} from '@connections';
-import {type MyContext, STATES} from '@interfaces/context';
+import {STATES, type TextContext} from '@interfaces/context';
 import {IntermediateHandler} from '@telefy/handlers/IntermediateHandler';
 import {getUserId} from '@telefy/utils';
 import {t} from '../../../locales/i18n';
@@ -8,7 +8,7 @@ class Step extends IntermediateHandler {
   react = STATES.changeTranslateOriginal;
   next = STATES.changeTranslateTranslate;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext, lng: string) {
     const userId = getUserId(ctx);
 
     const original = ctx.message.text;

@@ -1,6 +1,6 @@
 import {logger, pg} from '@connections';
 import type {Users, Words} from '@domain';
-import {type MyContext, STATES} from '@interfaces/context';
+import {STATES, type TextContext} from '@interfaces/context';
 import {getUserId} from '@telefy/utils';
 import {t} from '../../locales/i18n';
 import {EndHandler} from '@telefy/handlers/EndHandler';
@@ -8,7 +8,7 @@ import {EndHandler} from '@telefy/handlers/EndHandler';
 class End extends EndHandler {
   react = STATES.rememberWordTranslate;
 
-  async action(ctx: MyContext, lng: string) {
+  async action(ctx: TextContext, lng: string) {
     ctx.session.state.type = undefined;
     const original = ctx.session.state.data;
     ctx.session.state.data = undefined;
