@@ -1,5 +1,5 @@
 import {writeFileSync} from 'node:fs';
-import {getEnv} from '@utils';
+import {getEnv} from '@telefy/utils';
 
 const config = {
   url: `postgres://${getEnv('DB_USER')}:${getEnv('DB_PASSWORD')}@${getEnv('DB_HOST')}:${getEnv('DB_PORT')}/${getEnv('DB_DATABASE')}`,

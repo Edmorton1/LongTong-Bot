@@ -1,5 +1,5 @@
 import {type MyContext, STATES} from '@interfaces/context';
-import {StartHandler} from '@telefy/StartHandler';
+import {StartHandler} from '@telefy/handlers/StartHandler';
 import {t} from '../../locales/i18n';
 
 class Start extends StartHandler {

@@ -1,7 +1,7 @@
 import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
-import {StartHandler} from '@telefy/StartHandler';
-import {getUserId} from '@utils';
+import {StartHandler} from '@telefy/handlers/StartHandler';
+import {getUserId} from '@telefy/utils';
 import {sql} from 'kysely';
 import {t} from '../../locales/i18n';
 

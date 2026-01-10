@@ -1,7 +1,7 @@
 import type {COMMANDS} from '@interfaces/commands';
 import type {MyContext} from '@interfaces/context';
 import type {TextCommands} from '@interfaces/utils';
-import {getLng} from '@utils';
+import {getLng} from '@telefy/utils';
 
 export type Commands = (typeof COMMANDS)[keyof typeof COMMANDS];
 

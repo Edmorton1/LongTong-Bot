@@ -1,13 +1,14 @@
-import {logger} from '@connections';
+import {logger, pg} from '@connections';
+import type {Users} from '@domain';
 import {COMMAND_DESCRIPTIONS, COMMANDS} from '@interfaces/commands';
 import type {MyContext} from '@interfaces/context';
 import ActionsManager from '@telefy/ActionsManager';
-import {allHandlers} from '@telefy/allHandlers';
-import type {EndHandler} from '@telefy/EndHandler';
-import type {IntermediateHandler} from '@telefy/IntermediateHandler';
+import {allHandlers} from '@telefy/handlers/allHandlers';
+import type {EndHandler} from '@telefy/handlers/EndHandler';
+import type {IntermediateHandler} from '@telefy/handlers/IntermediateHandler';
 import {loadDirectories} from '@telefy/loadDirectories';
 import {getMenu} from '@telefy/Menu';
-import {getLng} from '@utils';
+import {getLng, getUserId} from '@telefy/utils';
 import {session, type Telegraf} from 'telegraf';
 import {message} from 'telegraf/filters';
 import {t} from '../locales/i18n';
@@ -70,9 +71,12 @@ export const start = async (bot: Telegraf<MyContext>) => {
     })
   );
 
-  bot.start((ctx) => {
+  bot.start(async (ctx) => {
+    const id = getUserId(ctx);
     const lng = getLng(ctx);
     const name = ctx.from.first_name;
+
+    await saveUser({id});
 
     const menu = getMenu(lng);
     ctx.reply(t('welcome', lng, {name}), menu);
@@ -123,3 +127,11 @@ export const start = async (bot: Telegraf<MyContext>) => {
   process.once('SIGINT', () => bot.stop('SIGINT'));
   process.once('SIGTERM', () => bot.stop('SIGTERM'));
 };
+
+function saveUser(user: Users) {
+  return pg()
+    .insertInto('users')
+    .values(user)
+    .onConflict((qb) => qb.doNothing())
+    .execute();
+}

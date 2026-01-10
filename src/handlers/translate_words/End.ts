@@ -1,8 +1,8 @@
 import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
 import {buttonCallback} from '@telefy/callbackButton';
-import {EndHandler} from '@telefy/EndHandler';
-import {getLng, getUserId} from '@utils';
+import {EndHandler} from '@telefy/handlers/EndHandler';
+import {getUserId} from '@telefy/utils';
 import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
 

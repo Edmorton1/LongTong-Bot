@@ -1,5 +1,5 @@
 import type {MyContext} from '@interfaces/context';
-import {getLng} from '@utils';
+import {getLng} from '@telefy/utils';
 import type {Telegraf} from 'telegraf';
 
 class ActionsManager {

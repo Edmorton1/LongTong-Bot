@@ -1,7 +1,7 @@
 import {logger, pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
-import {EndHandler} from '@telefy/EndHandler';
-import {getTxt, getUserId} from '@utils';
+import {EndHandler} from '@telefy/handlers/EndHandler';
+import {getTxt, getUserId} from '@telefy/utils';
 import {t} from '../../locales/i18n';
 
 const formatError = (line: string, index: number) =>
@@ -23,10 +23,11 @@ class End extends EndHandler {
       try {
         text = await getTxt(ctx);
       } catch (err) {
-        if (err instanceof Error) {
+        if (err instanceof Error && err.message.startsWith('File')) {
           ctx.reply(err.message);
           return;
         }
+        logger().error(err);
       }
     } else {
       text = ctx.message.text;
@@ -39,9 +40,9 @@ class End extends EndHandler {
     const userId = getUserId(ctx);
 
     try {
-      const words = text
+      const wordsMap = text
         .split('\n')
-        .reduce<[string, string][]>((acc, line, i) => {
+        .reduce<Map<string, string>>((acc, line, i) => {
           const trimmed = line.trim();
           if (!trimmed) return acc;
 
@@ -57,17 +58,21 @@ class End extends EndHandler {
             throw new Error(formatError(trimmed, i));
           }
 
-          acc.push([parts[0].trim(), parts[1].trim()] as [string, string]);
+          // Если слово уже есть, перезаписываем перевод новым
+          acc.set(parts[0].trim(), parts[1].trim());
+
           return acc;
-        }, []);
+        }, new Map<string, string>());
+
+      await uploadWords(Array.from(wordsMap.entries()), userId);
 
       ctx.reply(t('responses.load_dictionary.successful', lng));
     } catch (err) {
-      logger().error(err);
-      if (err instanceof Error) {
+      if (err instanceof Error && err.message.startsWith('❌')) {
         ctx.reply(err.message, {parse_mode: 'Markdown'});
         return;
       }
+      logger().error(err);
     }
   }
 }
@@ -83,10 +88,11 @@ function uploadWords(words: [string, string][], userId: number) {
       }))
     )
     .onConflict((oc) =>
-      oc.column('original').doUpdateSet({
+      oc.columns(['userId', 'original']).doUpdateSet({
         translate: (qb) => qb.ref('excluded.translate')
       })
-    );
+    )
+    .execute();
 }
 
 export default End;

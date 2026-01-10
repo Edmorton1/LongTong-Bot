@@ -1,13 +1,11 @@
 import {readdirSync, statSync} from 'node:fs';
 import {extname, join} from 'node:path';
-import {allHandlers} from './allHandlers';
-import {EndHandler} from './EndHandler';
-import {IntermediateHandler} from './IntermediateHandler';
-import {StartHandler} from './StartHandler';
+import {allHandlers} from './handlers/allHandlers';
+import {EndHandler} from './handlers/EndHandler';
+import {IntermediateHandler} from './handlers/IntermediateHandler';
+import {StartHandler} from './handlers/StartHandler';
 
-export const loadDirectories = async (
-  path: string
-) => {
+export const loadDirectories = async (path: string) => {
   async function loadFilesRecursively(dir: string) {
     const entries = readdirSync(dir);
 

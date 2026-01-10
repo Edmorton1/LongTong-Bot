@@ -1,5 +1,5 @@
 import {type MyContext, STATES} from '@interfaces/context';
-import {IntermediateHandler} from '@telefy/IntermediateHandler';
+import {IntermediateHandler} from '@telefy/handlers/IntermediateHandler';
 import {t} from '../../locales/i18n';
 
 class Step extends IntermediateHandler {

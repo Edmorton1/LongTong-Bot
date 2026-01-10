@@ -1,7 +1,7 @@
 import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
-import {IntermediateHandler} from '@telefy/IntermediateHandler';
-import {getUserId} from '@utils';
+import {IntermediateHandler} from '@telefy/handlers/IntermediateHandler';
+import {getUserId} from '@telefy/utils';
 import {t} from '../../../locales/i18n';
 
 class Step extends IntermediateHandler {

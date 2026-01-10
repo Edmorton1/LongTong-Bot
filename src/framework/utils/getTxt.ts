@@ -1,6 +1,6 @@
 import type {MyContext} from '@interfaces/context';
-import {getLng} from '@utils';
-import {t} from '../locales/i18n';
+import {getLng} from '@telefy/utils';
+import {t} from '../../locales/i18n';
 
 const getTxt = async (ctx: MyContext): Promise<string> => {
   const document = ctx.message.document;

@@ -2,8 +2,8 @@ import {pg} from '@connections';
 import {COMMANDS} from '@interfaces/commands';
 import {type MyContext, STATES} from '@interfaces/context';
 import {buttonCallback} from '@telefy/callbackButton';
-import {StartHandler} from '@telefy/StartHandler';
-import {getCallback, getUserId} from '@utils';
+import {StartHandler} from '@telefy/handlers/StartHandler';
+import {getCallback, getUserId} from '@telefy/utils';
 import {sql} from 'kysely';
 import {Markup} from 'telegraf';
 import {t} from '../../locales/i18n';
@@ -19,24 +19,29 @@ class Start extends StartHandler {
   }
 
   async action(ctx: MyContext, lng: string) {
-    const id = getUserId(ctx);
+    const userId = getUserId(ctx);
 
-    const words = await getWordsList(id);
+    const chunks = (await getWordsList(userId)).map((e) => {
+      const text = e.chunk_text;
+      if (typeof text !== 'string') {
+        throw new Error('Typeof text is not string');
+      }
+      return text;
+    });
 
-    if (!words.length) {
-      ctx.reply(t('responses.show_dictionary.words_empty', lng));
+    if (!chunks.length) {
+      ctx.reply(t('responses.show_dictionary.words_empty'));
       return;
     }
 
-    const asd = words
-      .map(
-        (qwe) =>
-          `${qwe.original} - ${qwe.translate}\n${t('words.correct', lng)}: ${qwe.correct}\n${t('words.incorrect', lng)}: ${qwe.incorrect}`
-      )
-      .join('\n\u200B\n');
+    const lastChunk = chunks.pop()!;
+
+    for (const chunk of chunks) {
+      await ctx.reply(chunk);
+    }
 
     ctx.reply(
-      asd,
+      lastChunk,
       Markup.inlineKeyboard([
         [
           buttonCallback(
@@ -114,9 +119,37 @@ async function exportTxtCallback(ctx: MyContext) {
 
 function getWordsList(userId: number) {
   return pg()
-    .selectFrom('words')
-    .select(['words.original', 'words.translate', 'correct', 'incorrect'])
-    .where('userId', '=', userId)
+    .with('words_ordered', (qb) =>
+      qb
+        .selectFrom('words')
+        .select([
+          sql`original || ' - ' || translate`.as('pair'),
+          sql`LENGTH(original || ' - ' || translate)`.as('len'),
+          'updatedAt'
+        ])
+        .where('userId', '=', userId)
+        .orderBy('updatedAt')
+    )
+    .with('cumulative', (qb) =>
+      qb
+        .selectFrom('words_ordered')
+        .selectAll()
+        .select(
+          sql`SUM(len + 1) OVER (ORDER BY "updatedAt" ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)`.as(
+            'cum_len'
+          )
+        )
+    )
+    .with('chunks', (qb) =>
+      qb
+        .selectFrom('cumulative')
+        .selectAll()
+        .select(sql`FLOOR((cum_len - 1) / 4000)`.as('chunk_id'))
+    )
+    .selectFrom('chunks')
+    .select(sql`STRING_AGG(pair, E'\n')`.as('chunk_text'))
+    .groupBy('chunk_id')
+    .orderBy('chunk_id')
     .execute();
 }
 

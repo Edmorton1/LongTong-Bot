@@ -1,6 +1,6 @@
 import {Markup} from 'telegraf';
 import {t} from '../locales/i18n';
-import {allHandlers} from './allHandlers';
+import {allHandlers} from './handlers/allHandlers';
 
 export const getMenu = (lng: string) => {
   const [remember_word, show_dictionary, load_dict, translate_word] =

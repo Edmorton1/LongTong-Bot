@@ -1,9 +1,9 @@
 import {logger, pg} from '@connections';
 import type {Users, Words} from '@domain';
 import {type MyContext, STATES} from '@interfaces/context';
-import {EndHandler} from '@telefy/EndHandler';
-import {getUserId} from '@utils';
+import {getUserId} from '@telefy/utils';
 import {t} from '../../locales/i18n';
+import {EndHandler} from '@telefy/handlers/EndHandler';
 
 class End extends EndHandler {
   react = STATES.rememberWordTranslate;

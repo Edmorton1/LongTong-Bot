@@ -47,9 +47,5 @@
       "words_empty": "Your word list is empty",
       "export_txt": "Export list in txt"
     }
-  },
-  "words": {
-    "correct": "correct",
-    "incorrect": "incorrect"
   }
 }

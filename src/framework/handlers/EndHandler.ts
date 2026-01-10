@@ -1,8 +1,8 @@
 import type {MyContext, States} from '@interfaces/context';
-import {getLng} from '@utils';
-import {t} from '../locales/i18n';
+import {getMenu} from '@telefy/Menu';
+import {getLng} from '@telefy/utils';
+import {t} from '../../locales/i18n';
 import {Handler} from './Handler';
-import {getMenu} from './Menu';
 
 export abstract class EndHandler extends Handler {
   public abstract react: States;

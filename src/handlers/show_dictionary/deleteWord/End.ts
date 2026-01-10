@@ -1,7 +1,7 @@
 import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
-import {EndHandler} from '@telefy/EndHandler';
-import {getUserId} from '@utils';
+import {EndHandler} from '@telefy/handlers/EndHandler';
+import {getUserId} from '@telefy/utils';
 import {t} from '../../../locales/i18n';
 
 class End extends EndHandler {

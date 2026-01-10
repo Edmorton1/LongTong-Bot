@@ -1,6 +1,6 @@
 import {pg} from '@connections';
 import {type MyContext, STATES} from '@interfaces/context';
-import {EndHandler} from '@telefy/EndHandler';
+import {EndHandler} from '@telefy/handlers/EndHandler';
 import {t} from '../../../locales/i18n';
 
 class End extends EndHandler {

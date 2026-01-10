@@ -1,4 +1,4 @@
-import {getEnv} from '@utils';
+import {getEnv} from '@telefy/utils';
 import pino, {type LoggerOptions, type Logger as PinoLogger} from 'pino';
 import type {Connection} from '../types';
 
